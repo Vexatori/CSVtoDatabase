@@ -30,7 +30,7 @@ namespace CSVtoDatabase.ViewModel
 
             ReceiveFromCsvCommand = new RelayCommand( OnReceiveFromCSVCommandExecuted, CanReceiveFromCSVCommandExecuted );
 
-            SendToDB = new RelayCommand( OnSendToDBExecuted, CanSendToDBExecuted );
+            SendToDBCommand = new RelayCommand( OnSendToDBExecuted, CanSendToDBExecuted );
 
             var usersFromDB = _usersData.GetAll();
 
@@ -80,7 +80,7 @@ namespace CSVtoDatabase.ViewModel
 
         public User CurrentUserFromDB { get => _currentUserFromDB; set => Set( ref _currentUserFromDB, value ); }
 
-        public ICommand SendToDB { get; }
+        public ICommand SendToDBCommand { get; }
 
         private bool CanSendToDBExecuted() => true;
 
@@ -105,6 +105,22 @@ namespace CSVtoDatabase.ViewModel
                         UsersFromDB.Add( user );
                     }
                 }
+            }
+        }
+
+        #endregion
+
+        #region Проверка пути к файлу
+
+        public ICommand ValidationPathErrorCommand { get; }
+
+        private bool CanValidationPathErrorExecuted() => true;
+
+        private void OnValidationPathErrorExecuted()
+        {
+            if ( _filePath is null || string.IsNullOrWhiteSpace( _filePath ) )
+            {
+                throw new ArgumentException( "Путь к файлу не может быть пустым", nameof( _filePath ) );
             }
         }
 

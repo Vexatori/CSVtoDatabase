@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CSVtoDatabase"
         xmlns:currentTime="clr-namespace:CSVtoDatabase.UtilityClasses"
+        xmlns:vr="clr-namespace:CSVtoDatabase.UtilityClasses.ValidationRules"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
         Title="CSVtoDatabase" Height="450" Width="800" Background="White"
@@ -14,7 +15,7 @@
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Введите полный путь к файлу" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="0, 0, 5, 0"/>
                 <TextBox MinWidth="200" Background="White" VerticalAlignment="Center" Text="{Binding FilePath}"/>
-                <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Background="White" BorderThickness="3" BorderBrush="LightBlue">
+                    <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Background="White" BorderThickness="3" BorderBrush="LightBlue">
                     <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding ReceiveFromCsvCommand}">
                         <TextBlock Text="Считать файл" FontSize="12" FontFamily="TimesNewRoman" FontWeight="Bold" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
                     </Button>
@@ -42,7 +43,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Background="WhiteSmoke" BorderThickness="3" BorderBrush="Silver">
-                <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding SendToDB}">
+                <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding SendToDBCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Отправить в БД" FontSize="12" FontFamily="TimesNewRoman" FontWeight="Bold" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
                         <fa:ImageAwesome Icon="Send" Height="20"/>
