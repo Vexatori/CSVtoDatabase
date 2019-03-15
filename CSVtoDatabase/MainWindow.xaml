@@ -4,9 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CSVtoDatabase"
+        xmlns:currentTime="clr-namespace:CSVtoDatabase.UtilityClasses"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="CSVtoDatabase" Height="450" Width="800" Background="White"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" BorderBrush="Silver" BorderThickness="2" Margin="3">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Введите полный путь к файлу" VerticalAlignment="Center" FontSize="15" FontWeight="Bold" Margin="0, 0, 5, 0"/>
+                <TextBox MinWidth="200" Background="White" VerticalAlignment="Center" Text="{Binding FilePath}"/>
+                <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Background="White" BorderThickness="3" BorderBrush="LightBlue">
+                    <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding ReceiveFromCsvCommand}">
+                        <TextBlock Text="Считать файл" FontSize="12" FontFamily="TimesNewRoman" FontWeight="Bold" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                    </Button>
+                </Border>
+            </StackPanel>
+        </Border>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.Resources>
+                <currentTime:CurrentTime x:Key="CurrentTime"/>
+            </StatusBar.Resources>
+            <TextBlock Text="{Binding Source={StaticResource CurrentTime}, Path=Now, ConverterCulture=ru-ru}" Margin="10, 0 ,0 ,0" Name="txtblStatus" MinWidth="150" VerticalAlignment="Center"/>
+        </StatusBar>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding CurrentUser}" AutoGenerateColumns="False" HorizontalGridLinesBrush="{x:Null}" 
+                      VerticalGridLinesBrush="DarkGray">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FullName}" Header="ФИО"/>
+                    <DataGridTextColumn Binding="{Binding Email}" Header="Почта"/>
+                    <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Border Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Background="WhiteSmoke" BorderThickness="3" BorderBrush="Silver">
+                <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding SendToDB}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Отправить в БД" FontSize="12" FontFamily="TimesNewRoman" FontWeight="Bold" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                        <fa:ImageAwesome Icon="Send" Height="20"/>
+                    </StackPanel>
+                </Button>
+            </Border>
+            <DataGrid Grid.Column="2" ItemsSource="{Binding UsersFromDB}" SelectedItem="{Binding CurrentUserFromDB}" AutoGenerateColumns="False" HorizontalGridLinesBrush="{x:Null}" 
+                      VerticalGridLinesBrush="DarkGray">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding FullName}" Header="ФИО"/>
+                    <DataGridTextColumn Binding="{Binding Email}" Header="Почта"/>
+                    <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
 </Window>
