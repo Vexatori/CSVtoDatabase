@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 using CSVtoDatabase.Data;
@@ -45,6 +47,8 @@ namespace CSVtoDatabase.ViewModel
 
         #region Считывание пользователей из CSV
 
+        private Regex regex = new Regex( @"(\w{1}):\\(.*)\.csv" );
+
         private string _filePath = String.Empty;
 
         public string FilePath { get => _filePath; set => Set( ref _filePath, value ); }
@@ -59,6 +63,12 @@ namespace CSVtoDatabase.ViewModel
 
         private void OnReceiveFromCSVCommandExecuted()
         {
+            if ( !regex.IsMatch( _filePath ) )
+            {
+                MessageBox.Show( "Неправильно введен путь к файлу.\nПуть должен именть вид:\n\"Диск:\\Папка(если файл в папке)\\файл.csv\"", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error );
+                return;
+            }
+
             using ( StreamReader reader = new StreamReader( _filePath, Encoding.Default ) )
             {
                 while ( !reader.EndOfStream )
@@ -105,22 +115,6 @@ namespace CSVtoDatabase.ViewModel
                         UsersFromDB.Add( user );
                     }
                 }
-            }
-        }
-
-        #endregion
-
-        #region Проверка пути к файлу
-
-        public ICommand ValidationPathErrorCommand { get; }
-
-        private bool CanValidationPathErrorExecuted() => true;
-
-        private void OnValidationPathErrorExecuted()
-        {
-            if ( _filePath is null || string.IsNullOrWhiteSpace( _filePath ) )
-            {
-                throw new ArgumentException( "Путь к файлу не может быть пустым", nameof( _filePath ) );
             }
         }
 
