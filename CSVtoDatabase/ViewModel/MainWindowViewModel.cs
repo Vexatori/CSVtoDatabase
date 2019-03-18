@@ -69,8 +69,9 @@ namespace CSVtoDatabase.ViewModel
                 return;
             }
 
-            using ( StreamReader reader = new StreamReader( _filePath, Encoding.Default ) )
+            try
             {
+                StreamReader reader = new StreamReader( _filePath, Encoding.Default );
                 while ( !reader.EndOfStream )
                 {
                     Task<string> readTask = new Task<string>( () => reader.ReadLine() );
@@ -79,6 +80,12 @@ namespace CSVtoDatabase.ViewModel
                     string[] temp = readTask.Result.Split( new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries );
                     Users.Add( new User() { FullName = temp[ 0 ], Email = temp[ 1 ], Phone = temp[ 2 ] } );
                 }
+
+                reader.Close();
+            }
+            catch ( System.IO.FileNotFoundException )
+            {
+                MessageBox.Show( "Файл не найден" );
             }
         }
 
