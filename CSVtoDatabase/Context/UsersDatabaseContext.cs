@@ -14,7 +14,7 @@ namespace CSVtoDatabase.Context
     {
         static UsersDatabaseContext()
         {
-            System.Data.Entity.Database.SetInitializer(new MigrateDatabaseToLatestVersion<UsersDatabaseContext, Configuration>());
+            System.Data.Entity.Database.SetInitializer( new MigrateDatabaseToLatestVersion<UsersDatabaseContext, Configuration>() );
         }
 
         public UsersDatabaseContext() : base( "name=UsersDatabaseContext" ) { }

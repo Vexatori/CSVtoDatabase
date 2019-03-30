@@ -74,10 +74,11 @@ namespace CSVtoDatabase.ViewModel
                 StreamReader reader = new StreamReader( _filePath, Encoding.Default );
                 while ( !reader.EndOfStream )
                 {
-                    Task<string> readTask = new Task<string>( () => reader.ReadLine() );
-                    readTask.Start();
+                    //Task<string> readTask = new Task<string>( () => reader.ReadLine() );
+                    //readTask.Start();
 
-                    string[] temp = readTask.Result.Split( new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries );
+                    //string[] temp = readTask.Result.Split( new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries );
+                    string[] temp = reader.ReadLineAsync().Result.Split( new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries );
                     Users.Add( new User() { FullName = temp[ 0 ], Email = temp[ 1 ], Phone = temp[ 2 ] } );
                 }
 
